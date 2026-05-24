@@ -1,14 +1,18 @@
 using RepairFlow.API.Configurations;
+using RepairFlow.API.Mappings;
+using RepairFlow.API.Repositories.Implementations;
+using RepairFlow.API.Repositories.Interfaces;
 using MongoDB.Driver;
 using Microsoft.OpenApi.Models;
+using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ─── Configurações tipadas ───────────────────────────────────────────
+// ____ Configurações tipadas _____________________________________________________________
 builder.Services.Configure<MongoDbSettings>(
     builder.Configuration.GetSection("MongoDbSettings"));
 
-// ─── MongoDB ─────────────────────────────────────────────────────────
+// ____ MongoDB _____________________________________________________________
 builder.Services.AddSingleton<IMongoClient>(sp =>
     new MongoClient(builder.Configuration["MongoDbSettings:ConnectionString"]!));
 
@@ -16,21 +20,64 @@ builder.Services.AddSingleton<IMongoDatabase>(sp =>
     sp.GetRequiredService<IMongoClient>()
       .GetDatabase(builder.Configuration["MongoDbSettings:DatabaseName"]!));
 
-// ─── CORS ─────────────────────────────────────────────────────────────
+// ____ CORS _____________________________________________________________
 var allowedOrigins = builder.Configuration
     .GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
 
 builder.Services.AddCors(o => o.AddPolicy("FrontendPolicy", p =>
     p.WithOrigins(allowedOrigins).AllowAnyHeader().AllowAnyMethod()));
 
-// ─── Controllers e Swagger ────────────────────────────────────────────
-builder.Services.AddControllers();
+// ____ AutoMapper _____________________________________________________________
+var mapperConfig = new MapperConfiguration(cfg =>
+{
+    cfg.AddProfile<AutoMapperProfile>();
+});
+builder.Services.AddSingleton(mapperConfig.CreateMapper());
+
+// ____ Repositórios _____________________________________________________________
+builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
+builder.Services.AddScoped<IEquipamentoRepository, EquipamentoRepository>();
+
+
+// ____ Controllers _____________________________________________________________
+builder.Services.AddControllers()
+    .AddJsonOptions(o =>
+        o.JsonSerializerOptions.Converters.Add(
+            new System.Text.Json.Serialization.JsonStringEnumConverter()));
+
+// ____ Swagger _____________________________________________________________
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "RepairFlow API", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { 
+        
+        Title = "RepairFlow API", 
+        Version = "v1",
+        Description = "API REST para gerenciamento de assistência técnica de eletrônicos" 
+        
+        });
+    
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "JWT Authorization. Informe: Bearer {seu_token}",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
+            },
+            Array.Empty<string>()
+        }
+    });
 });
 
+// ____ Build _____________________________________________________________
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
