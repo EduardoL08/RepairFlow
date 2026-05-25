@@ -37,7 +37,9 @@ builder.Services.AddSingleton(mapperConfig.CreateMapper());
 // ____ Repositórios _____________________________________________________________
 builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
 builder.Services.AddScoped<IEquipamentoRepository, EquipamentoRepository>();
-
+builder.Services.AddScoped<ITecnicoRepository, TecnicoRepository>();
+builder.Services.AddScoped<IOrdemServicoRepository, OrdemServicoRepository>();
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 
 // ____ Controllers _____________________________________________________________
 builder.Services.AddControllers()
