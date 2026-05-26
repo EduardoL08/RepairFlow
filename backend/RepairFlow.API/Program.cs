@@ -50,9 +50,13 @@ builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 
 // ____ Services  _____________________________________________________________
 builder.Services.AddScoped<IClienteService, ClienteService>();
+builder.Services.AddScoped<IEquipamentoService, EquipamentoService>();
+builder.Services.AddScoped<ITecnicoService, TecnicoService>();
 
 // ____ Validation  _____________________________________________________________
 builder.Services.AddValidatorsFromAssemblyContaining<ClienteValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<EquipamentoValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<TecnicoValidator>();
 builder.Services.AddFluentValidationAutoValidation();
 
 
