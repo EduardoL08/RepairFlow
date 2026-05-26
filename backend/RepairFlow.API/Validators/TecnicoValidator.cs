@@ -15,7 +15,7 @@ public class TecnicoValidator : AbstractValidator<TecnicoRequestDto>
         RuleFor(x => x.Especialidade)
             .NotEmpty().WithMessage("Especialidade é obrigatória.")
             .Must(e => new[] { "Eletrônica Geral", "Smartphones", "Computadores", "Notebooks", "Impressoras", "TVs e Monitores", "Consoles", "Eletrodomésticos", "Outro" }.Contains(e))
-            .WithMessage("Especialidade inválida.");
+            .WithMessage("Especialidade inválida. Opções: Eletrônica Geral, Smartphones, Computadores, Notebooks, Impressoras, TVs e Monitores, Consoles, Eletrodomésticos ");
 
         RuleFor(x => x.Telefone)
             .NotEmpty().WithMessage("Telefone é obrigatório.")

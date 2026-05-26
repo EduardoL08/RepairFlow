@@ -14,7 +14,7 @@ public class ClienteValidator : AbstractValidator<ClienteRequestDto>
 
         RuleFor(x => x.Cpf)
             .NotEmpty().WithMessage("CPF é obrigatório.")
-            .Must(ValidarCpf).WithMessage("CPF inválido.");
+            .Must(ValidarCpf).WithMessage("CPF inválido. Tem que ser um CPF real");
 
         RuleFor(x => x.Telefone)
             .NotEmpty().WithMessage("Telefone é obrigatório.")

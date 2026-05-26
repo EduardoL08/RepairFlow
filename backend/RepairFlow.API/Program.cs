@@ -11,6 +11,7 @@ using FluentValidation.AspNetCore;
 using MongoDB.Driver;
 using Microsoft.OpenApi.Models;
 using AutoMapper;
+using AutoPrime.API.Configurations;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -52,11 +53,13 @@ builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<IClienteService, ClienteService>();
 builder.Services.AddScoped<IEquipamentoService, EquipamentoService>();
 builder.Services.AddScoped<ITecnicoService, TecnicoService>();
+builder.Services.AddScoped<IOrdemServicoService, OrdemServicoService>();
 
 // ____ Validation  _____________________________________________________________
 builder.Services.AddValidatorsFromAssemblyContaining<ClienteValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<EquipamentoValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<TecnicoValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<OrdemServicoValidator>();
 builder.Services.AddFluentValidationAutoValidation();
 
 
@@ -68,59 +71,15 @@ builder.Services.AddControllers()
 
 // ____ Swagger _____________________________________________________________
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo { 
-        
-        Title = "RepairFlow API", 
-        Version = "v1",
-        Description = "API REST para gerenciamento de assistência técnica de eletrônicos" 
-        
-        });
-    
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        Description = "JWT Authorization. Informe: Bearer {seu_token}",
-        Name = "Authorization",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.ApiKey,
-        Scheme = "Bearer"
-    });
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
-            },
-            Array.Empty<string>()
-        }
-    });
-});
+builder.Services.AddSwaggerConfiguration();
 
 // ____ Build _____________________________________________________________
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "RepairFlow API v1");
-        c.RoutePrefix = "swagger";
-    });
-}
-
+app.UseSwaggerConfiguration();
 app.UseMiddleware<ErrorHandlingMiddleware>();
 app.UseCors("FrontendPolicy");
 app.UseHttpsRedirection();
 app.MapControllers();
-
-app.MapGet("/health", () => Results.Ok(new
-{
-    Status = "Healthy",
-    App = "RepairFlow API",
-    Timestamp = DateTime.UtcNow
-}));
 
 app.Run();

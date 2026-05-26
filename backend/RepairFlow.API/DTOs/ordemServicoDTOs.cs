@@ -38,3 +38,13 @@ public class OrdemServicoResponseDto
     public DateTime DataAbertura { get; set; }
     public DateTime? DataConclusao { get; set; }
 }
+
+public class DashboardStatsDto
+{
+    public int TotalClientes { get; set; }
+    public int TotalEquipamentos { get; set; }
+    public int TotalTecnicos { get; set; }
+    public int TotalOrdens { get; set; }
+    public Dictionary<string, long> ContagemPorStatus { get; set; } = new();
+    public int OrdensAlta { get; set; }
+}
