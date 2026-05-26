@@ -1,10 +1,17 @@
 using RepairFlow.API.Configurations;
 using RepairFlow.API.Mappings;
+using RepairFlow.API.Middlewares;
 using RepairFlow.API.Repositories.Implementations;
 using RepairFlow.API.Repositories.Interfaces;
+using RepairFlow.API.Services.Implementations;
+using RepairFlow.API.Services.Interfaces;
+using RepairFlow.API.Validators;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using MongoDB.Driver;
 using Microsoft.OpenApi.Models;
 using AutoMapper;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,6 +47,14 @@ builder.Services.AddScoped<IEquipamentoRepository, EquipamentoRepository>();
 builder.Services.AddScoped<ITecnicoRepository, TecnicoRepository>();
 builder.Services.AddScoped<IOrdemServicoRepository, OrdemServicoRepository>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+
+// ____ Services  _____________________________________________________________
+builder.Services.AddScoped<IClienteService, ClienteService>();
+
+// ____ Validation  _____________________________________________________________
+builder.Services.AddValidatorsFromAssemblyContaining<ClienteValidator>();
+builder.Services.AddFluentValidationAutoValidation();
+
 
 // ____ Controllers _____________________________________________________________
 builder.Services.AddControllers()
@@ -92,6 +107,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+app.UseMiddleware<ErrorHandlingMiddleware>();
 app.UseCors("FrontendPolicy");
 app.UseHttpsRedirection();
 app.MapControllers();
