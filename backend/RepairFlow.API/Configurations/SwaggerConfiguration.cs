@@ -33,7 +33,7 @@ public static class SwaggerConfiguration {
                 Name = "Authorization",
                 Description = "Insira o token JWT no formato: Bearer {seu_token}",
                 In = ParameterLocation.Header,
-                Type = SecuritySchemeType.ApiKey,
+                Type = SecuritySchemeType.Http,
                 Scheme = "Bearer",
                 BearerFormat = "JWT",
                 Reference = new OpenApiReference

@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using RepairFlow.API.DTOs.Tecnico;
 using RepairFlow.API.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RepairFlow.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 [Produces("application/json")]
 public class TecnicosController : ControllerBase
 {
@@ -31,6 +33,7 @@ public class TecnicosController : ControllerBase
 
     /// <summary>Cadastra novo técnico.</summary>
     [HttpPost]
+    [Authorize(Roles = "admin")]
     [ProducesResponseType(typeof(TecnicoResponseDto), 201)]
     [ProducesResponseType(400)]
     public async Task<IActionResult> Create([FromBody] TecnicoRequestDto dto)
@@ -41,6 +44,7 @@ public class TecnicosController : ControllerBase
 
     /// <summary>Atualiza um técnico.</summary>
     [HttpPut("{id}")]
+    [Authorize(Roles = "admin")]
     [ProducesResponseType(typeof(TecnicoResponseDto), 200)]
     [ProducesResponseType(404)]
     public async Task<IActionResult> Update(string id, [FromBody] TecnicoRequestDto dto)
@@ -49,6 +53,7 @@ public class TecnicosController : ControllerBase
 
     /// <summary>Remove um técnico.</summary>
     [HttpDelete("{id}")]
+    [Authorize(Roles = "admin")]
     [ProducesResponseType(204)]
     [ProducesResponseType(404)]
     public async Task<IActionResult> Delete(string id)

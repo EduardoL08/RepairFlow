@@ -2,11 +2,13 @@ using Microsoft.AspNetCore.Mvc;
 using RepairFlow.API.DTOs.OrdemServico;
 using RepairFlow.API.Models;
 using RepairFlow.API.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RepairFlow.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 [Produces("application/json")]
 public class OrdensServicoController : ControllerBase
 {
@@ -29,8 +31,6 @@ public class OrdensServicoController : ControllerBase
     }
 
     /// <summary>Retorna estatísticas para o dashboard.</summary>
-    /// IMPORTANTE: esta rota DEVE vir ANTES de GET /{id}
-    /// para o roteador não interpretar "dashboard" como um ID.
     [HttpGet("dashboard")]
     [ProducesResponseType(200)]
     public async Task<IActionResult> GetDashboard()
@@ -69,6 +69,7 @@ public class OrdensServicoController : ControllerBase
 
     /// <summary>Remove uma ordem de serviço.</summary>
     [HttpDelete("{id}")]
+    [Authorize(Roles = "admin")]
     [ProducesResponseType(204)]
     [ProducesResponseType(404)]
     public async Task<IActionResult> Delete(string id)

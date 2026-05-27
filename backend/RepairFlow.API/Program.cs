@@ -1,17 +1,11 @@
 using RepairFlow.API.Configurations;
+using RepairFlow.API.Extensions;
 using RepairFlow.API.Mappings;
 using RepairFlow.API.Middlewares;
-using RepairFlow.API.Repositories.Implementations;
-using RepairFlow.API.Repositories.Interfaces;
-using RepairFlow.API.Services.Implementations;
-using RepairFlow.API.Services.Interfaces;
-using RepairFlow.API.Validators;
-using FluentValidation;
-using FluentValidation.AspNetCore;
 using MongoDB.Driver;
-using Microsoft.OpenApi.Models;
 using AutoMapper;
 using AutoPrime.API.Configurations;
+using Microsoft.OpenApi.Models;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +13,9 @@ var builder = WebApplication.CreateBuilder(args);
 // ____ Configurações tipadas _____________________________________________________________
 builder.Services.Configure<MongoDbSettings>(
     builder.Configuration.GetSection("MongoDbSettings"));
+
+    builder.Services.Configure<JwtSettings>(
+    builder.Configuration.GetSection("JwtSettings"));
 
 // ____ MongoDB _____________________________________________________________
 builder.Services.AddSingleton<IMongoClient>(sp =>
@@ -42,26 +39,12 @@ var mapperConfig = new MapperConfiguration(cfg =>
 });
 builder.Services.AddSingleton(mapperConfig.CreateMapper());
 
-// ____ Repositórios _____________________________________________________________
-builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
-builder.Services.AddScoped<IEquipamentoRepository, EquipamentoRepository>();
-builder.Services.AddScoped<ITecnicoRepository, TecnicoRepository>();
-builder.Services.AddScoped<IOrdemServicoRepository, OrdemServicoRepository>();
-builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 
-// ____ Services  _____________________________________________________________
-builder.Services.AddScoped<IClienteService, ClienteService>();
-builder.Services.AddScoped<IEquipamentoService, EquipamentoService>();
-builder.Services.AddScoped<ITecnicoService, TecnicoService>();
-builder.Services.AddScoped<IOrdemServicoService, OrdemServicoService>();
-
-// ____ Validation  _____________________________________________________________
-builder.Services.AddValidatorsFromAssemblyContaining<ClienteValidator>();
-builder.Services.AddValidatorsFromAssemblyContaining<EquipamentoValidator>();
-builder.Services.AddValidatorsFromAssemblyContaining<TecnicoValidator>();
-builder.Services.AddValidatorsFromAssemblyContaining<OrdemServicoValidator>();
-builder.Services.AddFluentValidationAutoValidation();
-
+// ─── DI via extensões (SRP) ───────────────────────────────────────────
+builder.Services.AddRepositories();
+builder.Services.AddServices();
+builder.Services.AddValidators();
+builder.Services.AddJwtAuthentication(builder.Configuration);
 
 // ____ Controllers _____________________________________________________________
 builder.Services.AddControllers()
@@ -80,6 +63,8 @@ app.UseSwaggerConfiguration();
 app.UseMiddleware<ErrorHandlingMiddleware>();
 app.UseCors("FrontendPolicy");
 app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
 
 app.Run();

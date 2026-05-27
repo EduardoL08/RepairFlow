@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using RepairFlow.API.DTOs.Cliente;
 using RepairFlow.API.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RepairFlow.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 [Produces("application/json")]
 public class ClientesController : ControllerBase
 {
@@ -60,6 +62,7 @@ public class ClientesController : ControllerBase
 
     /// <summary>Remove um cliente.</summary>
     [HttpDelete("{id}")]
+    [Authorize(Roles = "admin")] 
     [ProducesResponseType(204)]
     [ProducesResponseType(404)]
     public async Task<IActionResult> Delete(string id)
