@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: #f8fafc;
+  color: #1e293b;
+}
+
+/* ─── Componentes reutilizáveis ─────────────────────────────────────── */
+
+.btn-primary {
+  @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 
+         bg-primary-600 text-white font-medium rounded-lg
+         hover:bg-primary-700 transition-colors duration-150
+         disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+.btn-secondary {
+  @apply inline-flex items-center justify-center gap-2 px-4 py-2.5
+         bg-white text-gray-700 font-medium border border-gray-300 rounded-lg
+         hover:bg-gray-50 transition-colors duration-150
+         disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+.btn-danger {
+  @apply inline-flex items-center justify-center gap-2 px-4 py-2.5
+         bg-red-600 text-white font-medium rounded-lg
+         hover:bg-red-700 transition-colors duration-150
+         disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+.input-field {
+  @apply w-full px-3.5 py-2.5 border border-gray-300 rounded-lg
+         focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent
+         transition-colors duration-150;
+}
+
+.input-error {
+  @apply border-red-500 focus:ring-red-500;
+}
+
+.card {
+  @apply bg-white rounded-xl border border-gray-100 shadow-sm
+         hover:shadow-md transition-shadow duration-150 p-6;
+}
+
+.badge {
+  @apply inline-block px-2.5 py-1 rounded-full text-xs font-semibold;
+}
+
+/* ─── Scrollbar customizado ────────────────────────────────────────── */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
