@@ -16,6 +16,7 @@ appsettings.Staging.json
 # Node / Frontend
 node_modules/
 dist/
+.env files
 .env
 .env.local
 .env.*.local
@@ -23,6 +24,7 @@ frontend/.env
 
 # Docker
 .docker/
+.dockerignore
 
 # IDE
 .idea/

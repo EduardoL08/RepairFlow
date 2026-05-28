@@ -131,13 +131,13 @@ export default function Clientes() {
 
       {/* Busca */}
       <div className="relative mb-6 max-w-sm">
-        <Search size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" />
+        <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
         <input
           type="text"
           placeholder="Buscar por nome, e-mail ou CPF..."
           value={busca}
           onChange={e => setBusca(e.target.value)}
-          className="input-field pr-9"
+          className="input-field pl-9"
         />
       </div>
 

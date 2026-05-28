@@ -1,11 +1,9 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
+import { lazy, Suspense } from 'react'
 import PrivateRoute from './routes/PrivateRoute'
 import Layout from './components/Layout'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
-
-// Lazy imports — navegação assíncrona (sem reload de página)
-import { lazy, Suspense } from 'react'
 import { LoadingSpinner } from './components/ui'
 
 const Clientes      = lazy(() => import('./pages/Clientes'))

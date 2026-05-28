@@ -328,13 +328,13 @@ export default function OrdensServico() {
       {/* Filtros */}
       <div className="flex flex-wrap items-center gap-3 mb-6">
         <div className="relative flex-1 min-w-[200px] max-w-sm">
-          <Search size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" />
+          <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
           <input
             type="text"
             placeholder="Buscar por equipamento, cliente..."
             value={busca}
             onChange={e => setBusca(e.target.value)}
-            className="input-field pr-9"
+            className="input-field pl-9"
           />
         </div>
         <div className="flex items-center gap-2">
