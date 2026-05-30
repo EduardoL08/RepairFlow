@@ -1,7 +1,4 @@
 # .NET
-bin/
-obj/
-*.user
 *.suo
 .vs/
 *.DotSettings
@@ -9,28 +6,27 @@ obj/
 TestResults/
 *.log
 
-# Configuration files with secrets
-appsettings.Production.json
-appsettings.Staging.json
-
-# Node / Frontend
-node_modules/
+# ═══════════════════════════════════════════════════════════════════════════
+# Build e Dependências
+# ═══════════════════════════════════════════════════════════════════════════
+bin/
+obj/
 dist/
-.env files
-.env
-.env.local
-.env.*.local
-frontend/.env
+build/
+
 
 # Docker
 .docker/
 .dockerignore
 
-# IDE
-.idea/
+# ═══════════════════════════════════════════════════════════════════════════
+# IDE e Sistema Operacional
+# ═══════════════════════════════════════════════════════════════════════════
+.vs/
 .vscode/
+.idea/
+*.user
 *.swp
-
-# OS
+*.swo
 .DS_Store
 Thumbs.db

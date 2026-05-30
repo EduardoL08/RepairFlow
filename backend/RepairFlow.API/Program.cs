@@ -4,18 +4,18 @@ using RepairFlow.API.Mappings;
 using RepairFlow.API.Middlewares;
 using MongoDB.Driver;
 using AutoMapper;
-using AutoPrime.API.Configurations;
-using Microsoft.OpenApi.Models;
 
 
 var builder = WebApplication.CreateBuilder(args);
+var config = builder.Configuration;
+
 
 // ____ Configurações tipadas _____________________________________________________________
 builder.Services.Configure<MongoDbSettings>(
     builder.Configuration.GetSection("MongoDbSettings"));
 
     builder.Services.Configure<JwtSettings>(
-    builder.Configuration.GetSection("JwtSettings"));
+     config.GetSection("JwtSettings"));
 
 // ____ MongoDB _____________________________________________________________
 builder.Services.AddSingleton<IMongoClient>(sp =>
@@ -27,10 +27,18 @@ builder.Services.AddSingleton<IMongoDatabase>(sp =>
 
 // ____ CORS _____________________________________________________________
 var allowedOrigins = builder.Configuration
-    .GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
+    .GetSection("Cors:AllowedOrigins")
+    .Get<string[]>() ?? [];
 
-builder.Services.AddCors(o => o.AddPolicy("FrontendPolicy", p =>
-    p.WithOrigins(allowedOrigins).AllowAnyHeader().AllowAnyMethod()));
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("FrontendPolicy", policy =>
+    {
+        policy.WithOrigins(allowedOrigins)
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
 
 // ____ AutoMapper _____________________________________________________________
 var mapperConfig = new MapperConfiguration(cfg =>

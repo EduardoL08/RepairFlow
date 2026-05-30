@@ -1,6 +1,6 @@
 using Microsoft.OpenApi.Models;
 
-namespace AutoPrime.API.Configurations;
+namespace RepairFlow.API.Configurations;
 
 /// <summary>
 /// Extensão para configurar o Swagger/OpenAPI na aplicação.

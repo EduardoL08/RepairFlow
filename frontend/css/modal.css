@@ -1,0 +1,120 @@
+/* ═══════════════════════════════════════════════════════════════
+   REPAIRFLOW — modal.css
+   Modais: genérico, status, confirmação
+═══════════════════════════════════════════════════════════════ */
+
+/* ── Overlay ───────────────────────────────────────────────── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, .45);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  backdrop-filter: blur(2px);
+}
+
+.modal-overlay.open { display: flex; }
+
+/* ── Modal Box ─────────────────────────────────────────────── */
+.modal-box {
+  background: var(--surface);
+  border-radius: var(--radius-xl);
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-xl);
+  animation: modalIn .2s ease;
+}
+
+.modal-box.modal-sm { max-width: 420px; }
+.modal-box.modal-lg { max-width: 640px; }
+
+@keyframes modalIn {
+  from { transform: scale(.95) translateY(-8px); opacity: 0; }
+  to   { transform: scale(1)   translateY(0);    opacity: 1; }
+}
+
+/* ── Header ────────────────────────────────────────────────── */
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.modal-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--gray-900);
+}
+
+.modal-close {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gray-400);
+  font-size: 18px;
+  transition: all var(--transition);
+}
+
+.modal-close:hover {
+  background: var(--gray-100);
+  color: var(--gray-600);
+}
+
+/* ── Body ──────────────────────────────────────────────────── */
+.modal-body {
+  padding: 1.5rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* ── Footer ────────────────────────────────────────────────── */
+.modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: .75rem;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+/* ── Radio Options (seleção de status) ─────────────────────── */
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding: .625rem .875rem;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all var(--transition);
+  margin-bottom: .5rem;
+}
+
+.radio-option:hover {
+  border-color: var(--primary-600);
+  background: var(--primary-50);
+}
+
+.radio-option input[type="radio"] {
+  width: auto;
+  flex-shrink: 0;
+  accent-color: var(--primary-700);
+}
+
+.radio-option:has(input:checked) {
+  border-color: var(--primary-600);
+  background: var(--primary-50);
+}
