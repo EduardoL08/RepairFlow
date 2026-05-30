@@ -1,8 +1,8 @@
 services:
 
-  # ═══════════════════════════════════════════════════════════════
+
   # MONGODB — Banco de dados
-  # ═══════════════════════════════════════════════════════════════
+  
   mongodb:
     image: mongo:7.0
     container_name: assistencia_mongo
@@ -23,9 +23,9 @@ services:
       timeout: 5s
       retries: 5
 
-  # ═══════════════════════════════════════════════════════════════
+  
   # MONGO EXPRESS — Interface visual do banco
-  # ═══════════════════════════════════════════════════════════════
+  
   mongo-express:
     image: mongo-express:1.0.2
     container_name: assistencia_mongo_express
@@ -44,9 +44,8 @@ services:
     networks:
       - assistencia_net
 
-  # ═══════════════════════════════════════════════════════════════
   # BACKEND — API .NET 10
-  # ═══════════════════════════════════════════════════════════════
+
   backend:
     build:
       context: ./backend
@@ -72,9 +71,9 @@ services:
     networks:
       - assistencia_net
 
-  # ═══════════════════════════════════════════════════════════════
+  
   # FRONTEND — HTML/CSS/JS servido por nginx
-  # ═══════════════════════════════════════════════════════════════
+
   frontend:
     build:
       context: ./frontend
@@ -88,9 +87,8 @@ services:
     networks:
       - assistencia_net
 
-# ═══════════════════════════════════════════════════════════════
 # VOLUMES E REDES
-# ═══════════════════════════════════════════════════════════════
+
 volumes:
   mongo_data:
 

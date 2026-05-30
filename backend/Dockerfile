@@ -1,7 +1,7 @@
-# ═══════════════════════════════════════════════════════════════
+
 # REPAIRFLOW — Backend Dockerfile
 # Build multi-stage: compila com SDK, roda só com runtime
-# ═══════════════════════════════════════════════════════════════
+
 
 # ── ESTÁGIO 1: Compilar ────────────────────────────────────────
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build

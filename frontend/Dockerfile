@@ -1,7 +1,7 @@
-# ═══════════════════════════════════════════════════════════════
+
 # REPAIRFLOW — Frontend Dockerfile
 # Serve arquivos estáticos HTML/CSS/JS via nginx
-# ═══════════════════════════════════════════════════════════════
+
 
 FROM nginx:alpine
 
