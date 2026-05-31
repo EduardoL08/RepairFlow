@@ -5,6 +5,9 @@
 
 FROM nginx:alpine
 
+# Atualiza os pacotes internos para corrigir vulnerabilidades conhecidas
+RUN apk update && apk upgrade
+
 # Remover configuração padrão do nginx
 RUN rm /etc/nginx/conf.d/default.conf
 

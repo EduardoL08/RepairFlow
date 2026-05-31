@@ -1,9 +1,8 @@
 /* ═══════════════════════════════════════════════════════════════
    REPAIRFLOW — app.js
-   App principal: inicialização, sidebar, roteamento por hash
+   App principal: inicialização, sidebar com ícones SVG, roteamento por hash
 ═══════════════════════════════════════════════════════════════ */
 
-/* ── Mapa de rotas ─────────────────────────────────────────── */
 const Routes = {
   dashboard:    () => PageDashboard.render(),
   clientes:     () => PageClientes.render(),
@@ -12,21 +11,13 @@ const Routes = {
   ordens:       () => PageOrdens.render(),
 };
 
-/* ── App ───────────────────────────────────────────────────── */
 const App = {
-  // ── Inicialização ───────────────────────────────────────────
   init() {
     Toast.init();
     this._bindEvents();
-
-    if (Store.isLogado()) {
-      this.showApp();
-    } else {
-      this.showLogin();
-    }
+    Store.isLogado() ? this.showApp() : this.showLogin();
   },
 
-  // ── Mostrar tela de Login ───────────────────────────────────
   showLogin() {
     document.getElementById('login-page').classList.add('visible');
     document.getElementById('app').classList.remove('visible');
@@ -36,7 +27,6 @@ const App = {
     location.hash = '';
   },
 
-  // ── Mostrar App principal ───────────────────────────────────
   showApp() {
     document.getElementById('login-page').classList.remove('visible');
     document.getElementById('app').classList.add('visible');
@@ -45,46 +35,33 @@ const App = {
     this.navigate(page);
   },
 
-  // ── Navegar para uma página ─────────────────────────────────
   navigate(page) {
     if (!Routes[page]) page = 'dashboard';
     location.hash = page;
-
-    // Atualizar estado ativo da sidebar
-    document.querySelectorAll('.nav-item').forEach(el => {
-      el.classList.toggle('active', el.dataset.page === page);
-    });
-
-    // Mostrar loading enquanto carrega
+    document.querySelectorAll('.nav-item').forEach(el =>
+      el.classList.toggle('active', el.dataset.page === page));
     UI.setContent(UI.loading());
-
-    // Chamar a função da página
     Routes[page]();
   },
 
-  // ── Renderizar Sidebar ──────────────────────────────────────
   _renderSidebar() {
     const user = Store.getUser();
 
-    // Nav items
-    document.getElementById('sidebar-nav').innerHTML = Config.PAGES
-      .map(p => `
+    document.getElementById('sidebar-nav').innerHTML = `
+      <div class="nav-section">Menu</div>
+      ${Config.PAGES.map(p => `
         <div class="nav-item" data-page="${p.id}" onclick="App.navigate('${p.id}')">
-          <span class="nav-item-icon">${p.icon}</span>
+          <span class="nav-item-icon">${Icons.get(p.icon, 16)}</span>
           ${p.label}
-        </div>`)
-      .join('');
+        </div>`).join('')}`;
 
-    // User info
     document.getElementById('user-info').innerHTML = `
       <p class="user-name">${UI.esc(user?.nome || '')}</p>
       <p class="user-email">${UI.esc(user?.email || '')}</p>
       <span class="user-role">${UI.esc(user?.role || '')}</span>`;
   },
 
-  // ── Bind de eventos globais ─────────────────────────────────
   _bindEvents() {
-    // Navegar com hash
     window.addEventListener('hashchange', () => {
       if (Store.isLogado()) {
         const page = location.hash.replace('#', '') || 'dashboard';
@@ -92,17 +69,14 @@ const App = {
       }
     });
 
-    // Enter no campo de senha → login
     document.getElementById('input-senha')?.addEventListener('keydown', e => {
       if (e.key === 'Enter') Auth.login();
     });
 
-    // Enter no campo de email → foco na senha
     document.getElementById('input-email')?.addEventListener('keydown', e => {
       if (e.key === 'Enter') document.getElementById('input-senha').focus();
     });
 
-    // Fechar modal clicando no overlay
     document.querySelectorAll('.modal-overlay').forEach(overlay => {
       overlay.addEventListener('click', e => {
         if (e.target === overlay) overlay.classList.remove('open');
@@ -111,5 +85,4 @@ const App = {
   },
 };
 
-/* ── Inicializar quando o DOM estiver pronto ───────────────── */
 document.addEventListener('DOMContentLoaded', () => App.init());

@@ -4,8 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>RepairFlow — Assistência Técnica</title>
-
-  <!-- ── CSS: carregados em ordem de dependência ──────────────── -->
   <link rel="stylesheet" href="css/variables.css" />
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/layout.css" />
@@ -15,226 +13,132 @@
 </head>
 <body>
 
-<!-- ════════════════════════════════════════════════════════════
-     LOGIN PAGE
-════════════════════════════════════════════════════════════ -->
+<!-- LOGIN -->
 <div id="login-page">
   <div class="login-card">
-
     <div class="login-logo">
-      <div class="login-logo-icon">⚡</div>
+      <div class="login-logo-icon" id="logo-icon-login">
+        <!-- Injetado por JS após icons.js carregar -->
+      </div>
       <h1 class="login-logo-title">RepairFlow</h1>
       <p class="login-logo-sub">Sistema de Assistência Técnica</p>
     </div>
-
-    <h2 class="login-title">Entrar na plataforma</h2>
-
+    <p class="login-title">Acesse sua conta</p>
     <div id="login-error" class="login-error"></div>
-
     <div class="form-group">
       <label class="form-label" for="input-email">E-mail</label>
-      <input
-        class="input"
-        type="email"
-        id="input-email"
-        placeholder="seu@email.com"
-        autocomplete="email"
-      />
+      <input class="input" type="email" id="input-email" placeholder="seu@email.com" autocomplete="email"/>
     </div>
-
     <div class="form-group">
       <label class="form-label" for="input-senha">Senha</label>
       <div class="input-group">
-        <input
-          class="input"
-          type="password"
-          id="input-senha"
-          placeholder="••••••••"
-          autocomplete="current-password"
-        />
-        <button
-          class="input-eye"
-          id="btn-toggle-senha"
-          type="button"
-          onclick="Auth.toggleSenha()"
-          title="Mostrar/ocultar senha"
-        >👁</button>
+        <input class="input" type="password" id="input-senha" placeholder="••••••••" autocomplete="current-password"/>
+        <button class="input-eye" id="btn-toggle-senha" type="button" onclick="Auth.toggleSenha()"></button>
       </div>
     </div>
-
-    <button class="btn-login" id="btn-login" onclick="Auth.login()">
-      Entrar
-    </button>
-
+    <button class="btn-login" id="btn-login" onclick="Auth.login()">Entrar na plataforma</button>
   </div>
-
   <p class="login-footer">RepairFlow © <span id="ano"></span></p>
 </div>
 
-
-<!-- ════════════════════════════════════════════════════════════
-     APP SHELL
-════════════════════════════════════════════════════════════ -->
+<!-- APP SHELL -->
 <div id="app">
-
-  <!-- ── Sidebar ─────────────────────────────────────────────── -->
   <aside class="sidebar">
-
     <div class="sidebar-logo">
-      <div class="sidebar-logo-icon">⚡</div>
-      <span class="sidebar-logo-name">RepairFlow</span>
-    </div>
-
-    <nav class="sidebar-nav" id="sidebar-nav">
-      <!-- Renderizado por app.js -->
-    </nav>
-
-    <div class="sidebar-footer">
-      <div id="user-info">
-        <!-- Renderizado por app.js -->
+      <div class="sidebar-logo-icon" id="logo-icon-sidebar"></div>
+      <div>
+        <div style="display:flex;align-items:center;gap:6px">
+          <span class="sidebar-logo-name">RepairFlow</span>
+          <span class="sidebar-logo-tag">v1</span>
+        </div>
+        <div style="font-size:.65rem;color:var(--text-muted);margin-top:1px">Assistência Técnica</div>
       </div>
-      <button class="btn-logout" onclick="Auth.logout()">
-        ⬅ Sair
-      </button>
     </div>
-
+    <nav class="sidebar-nav" id="sidebar-nav"></nav>
+    <div class="sidebar-footer">
+      <div id="user-info" class="user-card"></div>
+      <button class="btn-logout" id="btn-logout" onclick="Auth.logout()"></button>
+    </div>
   </aside>
-
-  <!-- ── Main ────────────────────────────────────────────────── -->
   <main class="main">
-    <div id="main-content">
-      <!-- Conteúdo dinâmico injetado pelo router -->
-    </div>
+    <div id="main-content"></div>
   </main>
-
 </div>
 
-
-<!-- ════════════════════════════════════════════════════════════
-     MODAL — Formulário genérico (criar / editar)
-════════════════════════════════════════════════════════════ -->
+<!-- MODAL Formulário -->
 <div class="modal-overlay" id="modal-form">
   <div class="modal-box">
-
     <div class="modal-header">
-      <span class="modal-title" id="modal-title">Modal</span>
-      <button class="modal-close" onclick="Modal.close('modal-form')">✕</button>
+      <span class="modal-title" id="modal-title"></span>
+      <button class="modal-close" id="mc-form" onclick="Modal.close('modal-form')"></button>
     </div>
-
-    <div class="modal-body" id="modal-body">
-      <!-- Corpo dinâmico -->
-    </div>
-
+    <div class="modal-body" id="modal-body"></div>
     <div class="modal-footer">
-      <button class="btn btn-secondary" onclick="Modal.close('modal-form')">
-        Cancelar
-      </button>
-      <button class="btn btn-primary" id="modal-save">
-        Salvar
-      </button>
+      <button class="btn btn-secondary" onclick="Modal.close('modal-form')">Cancelar</button>
+      <button class="btn btn-primary" id="modal-save">Salvar</button>
     </div>
-
   </div>
 </div>
 
-
-<!-- ════════════════════════════════════════════════════════════
-     MODAL — Atualizar status de ordem
-════════════════════════════════════════════════════════════ -->
+<!-- MODAL Status -->
 <div class="modal-overlay" id="modal-status">
   <div class="modal-box">
-
     <div class="modal-header">
-      <span class="modal-title" id="status-title">Atualizar Status</span>
-      <button class="modal-close" onclick="Modal.close('modal-status')">✕</button>
+      <span class="modal-title" id="status-title"></span>
+      <button class="modal-close" id="mc-status" onclick="Modal.close('modal-status')"></button>
     </div>
-
-    <div class="modal-body" id="status-body">
-      <!-- Corpo dinâmico -->
-    </div>
-
+    <div class="modal-body" id="status-body"></div>
     <div class="modal-footer">
-      <button class="btn btn-secondary" onclick="Modal.close('modal-status')">
-        Cancelar
-      </button>
-      <button class="btn btn-primary" id="status-save">
-        Atualizar
-      </button>
+      <button class="btn btn-secondary" onclick="Modal.close('modal-status')">Cancelar</button>
+      <button class="btn btn-primary" id="status-save">Atualizar</button>
     </div>
-
   </div>
 </div>
 
-
-<!-- ════════════════════════════════════════════════════════════
-     MODAL — Confirmação de exclusão
-════════════════════════════════════════════════════════════ -->
+<!-- MODAL Confirmar -->
 <div class="modal-overlay" id="modal-confirm">
   <div class="modal-box modal-sm">
-
     <div class="modal-header">
-      <span class="modal-title" id="confirm-title">Confirmar</span>
-      <button class="modal-close" onclick="Modal.close('modal-confirm')">✕</button>
+      <span class="modal-title" id="confirm-title"></span>
+      <button class="modal-close" id="mc-confirm" onclick="Modal.close('modal-confirm')"></button>
     </div>
-
     <div class="modal-body">
-      <p id="confirm-message"
-         style="color:var(--gray-600);font-size:.9375rem;line-height:1.6">
-      </p>
+      <p id="confirm-message" style="color:var(--text-secondary);font-size:.9375rem;line-height:1.6"></p>
     </div>
-
     <div class="modal-footer">
-      <button class="btn btn-secondary" onclick="Modal.close('modal-confirm')">
-        Cancelar
-      </button>
-      <button class="btn btn-danger" id="confirm-ok">
-        Remover
-      </button>
+      <button class="btn btn-secondary" onclick="Modal.close('modal-confirm')">Cancelar</button>
+      <button class="btn btn-danger" id="confirm-ok">Remover</button>
     </div>
-
   </div>
 </div>
 
-
-<!-- ════════════════════════════════════════════════════════════
-     TOAST CONTAINER
-════════════════════════════════════════════════════════════ -->
 <div id="toast-container"></div>
 
-
-<!-- ════════════════════════════════════════════════════════════
-     JAVASCRIPT — carregado em ordem de dependência
-════════════════════════════════════════════════════════════ -->
-
-<!-- 1. Configurações e constantes -->
+<!-- JS em ordem de dependência -->
 <script src="js/config.js"></script>
-
-<!-- 2. Estado global -->
 <script src="js/store.js"></script>
-
-<!-- 3. Cliente HTTP -->
 <script src="js/api.js"></script>
-
-<!-- 4. Helpers de UI -->
+<script src="js/icons.js"></script>
 <script src="js/ui.js"></script>
-
-<!-- 5. Autenticação -->
 <script src="js/auth.js"></script>
-
-<!-- 6. Páginas -->
 <script src="js/pages/dashboard.js"></script>
 <script src="js/pages/clientes.js"></script>
 <script src="js/pages/equipamentos.js"></script>
 <script src="js/pages/tecnicos.js"></script>
 <script src="js/pages/ordens.js"></script>
-
-<!-- 7. App principal (inicializa tudo) — SEMPRE por último -->
 <script src="js/app.js"></script>
-
 <script>
-  // Ano no rodapé do login
+  // Ano no rodapé
   document.getElementById('ano').textContent = new Date().getFullYear();
-</script>
 
+  // Injetar ícones estáticos no HTML (precisam de icons.js já carregado)
+  document.getElementById('logo-icon-login').innerHTML    = Icons.get('zap', 28, 'icon-glow');
+  document.getElementById('logo-icon-sidebar').innerHTML  = Icons.get('zap', 18, 'icon-glow');
+  document.getElementById('btn-toggle-senha').innerHTML   = Icons.get('eye', 15);
+  document.getElementById('btn-logout').innerHTML         = Icons.get('logout', 15) + ' Sair da conta';
+  document.getElementById('mc-form').innerHTML            = Icons.get('x', 15);
+  document.getElementById('mc-status').innerHTML          = Icons.get('x', 15);
+  document.getElementById('mc-confirm').innerHTML         = Icons.get('x', 15);
+</script>
 </body>
 </html>
