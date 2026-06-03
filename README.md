@@ -375,6 +375,7 @@ public async Task CreateAsync_DeveCriarCliente_QuandoDadosValidos()
     resultado.Should().NotBeNull();
     resultado.Nome.Should().Be("João Silva");
 }
+```
 
 ---
 
@@ -393,4 +394,3 @@ Desenvolvido como projeto semestral da disciplina de Desenvolvimento Full Stack.
 <div align="center">
   <sub>RepairFlow © 2026 — Assistência Técnica de Eletrônicos</sub>
 </div>
-```
