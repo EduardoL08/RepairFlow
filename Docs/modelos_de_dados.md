@@ -2,6 +2,8 @@
 
 Estrutura das coleções MongoDB, campos, tipos e relacionamentos entre entidades.
 
+Cole o código Mermaid abaixo em https://mermaid.live para visualizar.
+
 ---
 
 ## 1. Diagrama Entidade-Relacionamento

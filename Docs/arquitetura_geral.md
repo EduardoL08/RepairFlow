@@ -1,5 +1,7 @@
 # 🏗 Arquitetura Geral — RepairFlow
 
+Cole o código Mermaid abaixo em https://mermaid.live para visualizar.
+
 Visão completa da arquitetura do sistema: containers, camadas internas da API, fluxo de dados e infraestrutura Docker.
 
 ---
