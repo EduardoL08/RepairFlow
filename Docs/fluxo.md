@@ -2,8 +2,6 @@
 
 Diagramas de sequência e fluxo para os principais processos do sistema.
 
-Cole o código Mermaid abaixo em https://mermaid.live para visualizar.
-
 ---
 
 ## 1. Fluxo de Autenticação JWT

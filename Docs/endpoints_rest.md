@@ -1,7 +1,5 @@
 # 📡 Endpoints REST — RepairFlow API
 
-Cole o código Mermaid abaixo em https://mermaid.live para visualizar.
-
 Referência completa de todos os endpoints, com métodos HTTP, autenticação, roles, parâmetros, body e respostas.
 
 **Base URL:** `http://localhost:5000/api`

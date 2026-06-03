@@ -1,12 +1,11 @@
 # 🏗 Arquitetura Geral — RepairFlow
 
-Cole o código Mermaid abaixo em https://mermaid.live para visualizar.
-
 Visão completa da arquitetura do sistema: containers, camadas internas da API, fluxo de dados e infraestrutura Docker.
 
 ---
 
 ## 1. Visão de Containers (Docker Compose)
+
 
 ```mermaid
 graph TB
@@ -55,6 +54,7 @@ graph TB
 ---
 
 ## 2. Camadas Internas da API (.NET 10)
+
 
 ```mermaid
 graph TD
